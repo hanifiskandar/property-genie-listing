@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:documenter.getpostman.com)",
+      "Bash(find C:UsersAdminProjectspersonalproperty-genie -not -path */node_modules* -not -path */.next* -not -path */.git* -type d)",
+      "Bash(npx shadcn@latest init --help)",
+      "Bash(npx:*)"
+    ]
+  }
+}
