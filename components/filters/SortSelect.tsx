@@ -25,7 +25,7 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
     <Select value={value} onValueChange={(v) => onChange(v as SortOption)}>
       {/* Render the human-readable label directly — bypasses Base UI SelectValue
           which can display the raw value string instead of the item label */}
-      <SelectTrigger className="h-9 text-sm border-gray-200 text-gray-700 hover:border-gray-300 bg-white w-auto min-w-[172px]">
+      <SelectTrigger className="h-9 text-sm bg-white border-gray-200 text-gray-700 hover:border-gray-300 w-auto min-w-[172px]">
         <span className="flex flex-1 text-left text-sm truncate">{currentLabel}</span>
       </SelectTrigger>
       <SelectContent className="border-gray-200 shadow-lg">
