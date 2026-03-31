@@ -4,6 +4,7 @@ import { filtersToQuery } from "@/lib/utils";
 import type { SavedSearch, FilterState, SortOption } from "@/lib/types";
 
 const STORAGE_KEY = "pg_saved_searches";
+const SYNC_EVENT = "pg_saved_searches_sync";
 
 function loadFromStorage(): SavedSearch[] {
   if (typeof window === "undefined") return [];
@@ -17,6 +18,7 @@ function loadFromStorage(): SavedSearch[] {
 
 function saveToStorage(searches: SavedSearch[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(searches));
+  window.dispatchEvent(new Event(SYNC_EVENT));
 }
 
 export function useSavedSearches() {
@@ -25,6 +27,9 @@ export function useSavedSearches() {
 
   useEffect(() => {
     setSavedSearches(loadFromStorage());
+    const sync = () => setSavedSearches(loadFromStorage());
+    window.addEventListener(SYNC_EVENT, sync);
+    return () => window.removeEventListener(SYNC_EVENT, sync);
   }, []);
 
   const save = useCallback((name: string, filters: FilterState, sort: SortOption) => {

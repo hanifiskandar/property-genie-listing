@@ -25,7 +25,7 @@ export const DEFAULT_FILTERS: FilterState = {
   maxPrice: null,
 };
 
-export const DEFAULT_SORT: SortOption = "-createdAt";
+export const DEFAULT_SORT: SortOption = "createdAt";
 
 export function filtersToQuery(
   filters: FilterState,

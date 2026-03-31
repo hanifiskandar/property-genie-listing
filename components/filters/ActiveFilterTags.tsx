@@ -16,10 +16,10 @@ interface ActiveFilterTagsProps {
 }
 
 const SORT_LABELS: Record<SortOption, string> = {
-  "-createdAt": "Default",
+  createdAt:    "Default",
+  "-createdAt": "Newest First",
   price:        "Price: Low→High",
   "-price":     "Price: High→Low",
-  createdAt:    "Oldest First",
 };
 
 export function ActiveFilterTags({

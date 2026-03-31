@@ -7,10 +7,10 @@ import {
 import type { SortOption } from "@/lib/types";
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "-createdAt", label: "Default (Newest First)" },
-  { value: "price",      label: "Price: Low to High"    },
-  { value: "-price",     label: "Price: High to Low"    },
-  { value: "createdAt",  label: "Oldest First"          },
+  { value: "createdAt",  label: "Default (Oldest First)" },
+  { value: "-createdAt", label: "Newest First"                     },
+  { value: "price",      label: "Price: Low to High"               },
+  { value: "-price",     label: "Price: High to Low"               },
 ];
 
 interface SortSelectProps {
