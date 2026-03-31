@@ -11,12 +11,13 @@ import type { LocationResult } from "@/lib/types";
 
 interface LocationSearchProps {
   value: string;
-  onChange: (location: string) => void;
+  displayTitle: string;
+  onChange: (slug: string, title: string) => void;
 }
 
-export function LocationSearch({ value, onChange }: LocationSearchProps) {
+export function LocationSearch({ value, displayTitle, onChange }: LocationSearchProps) {
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState(value);
+  const [query, setQuery] = useState(displayTitle);
   const [results, setResults] = useState<LocationResult[]>([]);
   const [loading, setLoading] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
@@ -29,10 +30,21 @@ export function LocationSearch({ value, onChange }: LocationSearchProps) {
       .finally(() => setLoading(false));
   }, [debouncedQuery]);
 
-  useEffect(() => { setQuery(value); }, [value]);
+  useEffect(() => { setQuery(displayTitle); }, [displayTitle]);
 
-  const handleSelect = (loc: string) => { onChange(loc); setQuery(loc); setOpen(false); };
-  const handleClear = () => { onChange(""); setQuery(""); setResults([]); };
+  const handleSelect = (loc: LocationResult) => {
+    onChange(loc.slug, loc.title);
+    setQuery(loc.title);
+    setOpen(false);
+  };
+
+  const handleClear = () => {
+    onChange("", "");
+    setQuery("");
+    setResults([]);
+  };
+
+  const buttonLabel = displayTitle || (value ? value : "Location");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -47,7 +59,7 @@ export function LocationSearch({ value, onChange }: LocationSearchProps) {
             )}
           >
             <MapPin size={13} className="shrink-0" />
-            <span className="max-w-[130px] truncate">{value || "Location"}</span>
+            <span className="max-w-[130px] truncate">{buttonLabel}</span>
             {value ? (
               <span
                 role="button" tabIndex={0}
@@ -77,11 +89,11 @@ export function LocationSearch({ value, onChange }: LocationSearchProps) {
             ) : (
               <CommandGroup>
                 {results.map((r) => (
-                  <CommandItem key={r.id} value={r.name} onSelect={() => handleSelect(r.name)}>
+                  <CommandItem key={r.slug} value={r.title} onSelect={() => handleSelect(r)}>
                     <MapPin size={13} className="text-gray-400 shrink-0" />
-                    <span className="text-gray-800">{r.name}</span>
+                    <span className="text-gray-800">{r.title}</span>
                     {r.type && (
-                      <span className="ml-auto text-xs text-gray-400 capitalize">{r.type}</span>
+                      <span className="ml-auto text-xs text-gray-400">{r.type}</span>
                     )}
                   </CommandItem>
                 ))}

@@ -67,7 +67,8 @@ export function FilterBar({
         <div className="flex items-center gap-2 overflow-x-auto sm:flex-wrap sm:overflow-visible pb-0.5 sm:pb-0">
           <LocationSearch
             value={filters.location}
-            onChange={(loc) => update({ location: loc })}
+            displayTitle={filters.locationTitle}
+            onChange={(slug, title) => update({ location: slug, locationTitle: title })}
           />
           <PropertyTypeFilter
             categories={filters.categories}
@@ -99,7 +100,7 @@ export function FilterBar({
         <ActiveFilterTags
           filters={filters}
           sort={sort}
-          onRemoveLocation={() => update({ location: "" })}
+          onRemoveLocation={() => update({ location: "", locationTitle: "" })}
           onRemoveCategory={(cat) => update({ categories: filters.categories.filter((c) => c !== cat) })}
           onRemoveType={(type) => update({ types: filters.types.filter((t) => t !== type) })}
           onRemoveMinPrice={() => update({ minPrice: null })}

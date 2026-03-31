@@ -30,7 +30,7 @@ export function ActiveFilterTags({
 }: ActiveFilterTagsProps) {
   const tags: { label: string; onRemove: () => void }[] = [];
 
-  if (filters.location)          tags.push({ label: filters.location,                        onRemove: onRemoveLocation });
+  if (filters.location)          tags.push({ label: filters.locationTitle || filters.location, onRemove: onRemoveLocation });
   filters.categories.forEach((c) => tags.push({ label: c,                                    onRemove: () => onRemoveCategory(c) }));
   filters.types.forEach((t)      => tags.push({ label: t,                                    onRemove: () => onRemoveType(t) }));
   if (filters.minPrice !== null)   tags.push({ label: `≥ ${formatPrice(filters.minPrice)}`,  onRemove: onRemoveMinPrice });

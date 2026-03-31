@@ -18,6 +18,7 @@ export function formatArea(sqft: string | null): string {
 
 export const DEFAULT_FILTERS: FilterState = {
   location: "",
+  locationTitle: "",
   categories: [],
   types: [],
   minPrice: null,
@@ -34,6 +35,7 @@ export function filtersToQuery(
   const params: Record<string, string> = { page: String(page) };
   if (sort) params.sort = sort;
   if (filters.location) params.location = filters.location;
+  if (filters.locationTitle) params.locationTitle = filters.locationTitle;
   if (filters.categories.length > 0) params.categories = filters.categories.join(",");
   if (filters.types.length > 0) params.types = filters.types.join(",");
   if (filters.minPrice !== null) params.minPrice = String(filters.minPrice);
@@ -44,6 +46,7 @@ export function filtersToQuery(
 export function queryToFilters(query: ParsedUrlQuery): FilterState {
   return {
     location: typeof query.location === "string" ? query.location : "",
+    locationTitle: typeof query.locationTitle === "string" ? query.locationTitle : "",
     categories:
       typeof query.categories === "string" && query.categories
         ? query.categories.split(",").filter(Boolean)

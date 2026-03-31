@@ -39,9 +39,9 @@ export function PropertyGrid({
       ) : items.length === 0 ? (
         <EmptyState onClearFilters={onClearFilters} />
       ) : isGrid ? (
-        items.map((property) => <PropertyCard key={property.id} property={property} />)
+        items.map((property, i) => <PropertyCard key={property.id} property={property} index={i} />)
       ) : (
-        items.map((property) => <PropertyListCard key={property.id} property={property} />)
+        items.map((property, i) => <PropertyListCard key={property.id} property={property} index={i} />)
       )}
     </div>
   );

@@ -11,7 +11,13 @@ export function Navbar() {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <a href="/" className="shrink-0">
-          <Image src="/logo.webp" alt="PropertyGenie" width={120} height={40} priority />
+          <Image
+            src="/logo.webp"
+            alt="PropertyGenie"
+            width={120}
+            height={40}
+            priority
+          />
         </a>
 
         <Button

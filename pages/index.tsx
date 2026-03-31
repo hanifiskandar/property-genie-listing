@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/pagination";
 
 import { fetchProperties } from "@/lib/api";
+import { propertyCache } from "@/lib/propertyCache";
 import { queryToFilters, queryToPage, queryToSort, filtersToQuery } from "@/lib/utils";
 import { useProperties } from "@/hooks/useProperties";
 import { useViewMode } from "@/hooks/useViewMode";
@@ -34,6 +35,9 @@ interface HomeProps {
 }
 
 export default function Home({ initialItems, initialMeta }: HomeProps) {
+  // Seed the client-side cache with SSR data immediately on mount
+  propertyCache.set(initialItems);
+
   const router = useRouter();
   const { viewMode, setViewMode } = useViewMode();
 

@@ -5,7 +5,17 @@
       "Bash(find C:UsersAdminProjectspersonalproperty-genie -not -path */node_modules* -not -path */.next* -not -path */.git* -type d)",
       "Bash(npx shadcn@latest init --help)",
       "Bash(npx:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(ls /c/Users/User/Projects/personals/property-genie-listing/.env*)",
+      "Bash(npm install:*)",
+      "Bash(mkdir -p /c/Users/User/Projects/personals/property-genie-listing/public/leaflet)",
+      "Bash(cp /c/Users/User/Projects/personals/property-genie-listing/node_modules/leaflet/dist/images/marker-icon.png /c/Users/User/Projects/personals/property-genie-listing/public/leaflet/)",
+      "Bash(cp /c/Users/User/Projects/personals/property-genie-listing/node_modules/leaflet/dist/images/marker-icon-2x.png /c/Users/User/Projects/personals/property-genie-listing/public/leaflet/)",
+      "Bash(cp /c/Users/User/Projects/personals/property-genie-listing/node_modules/leaflet/dist/images/marker-shadow.png /c/Users/User/Projects/personals/property-genie-listing/public/leaflet/)",
+      "Bash(curl:*)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\(''''_meta'''',{}\\).get\\(''''totalCount'''',''''not found''''\\)\\)\")",
+      "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\(j?._meta?.totalCount??''''not found''''\\)}\\)\")"
     ]
   }
 }
