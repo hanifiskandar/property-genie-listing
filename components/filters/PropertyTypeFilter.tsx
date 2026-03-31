@@ -46,10 +46,10 @@ export function PropertyTypeFilter({ categories, types, onCategoriesChange, onTy
         render={
           <button
             className={cn(
-              "inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm font-medium transition-all",
+              "inline-flex items-center gap-1.5 h-9 px-4 rounded-lg border text-sm font-medium transition-all shrink-0",
               "bg-white text-gray-700 border-gray-200",
-              "hover:border-indigo-500 hover:text-indigo-600 hover:bg-indigo-50",
-              count > 0 && "border-indigo-500 text-indigo-600 bg-indigo-50"
+              "hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50",
+              count > 0 && "border-indigo-200 border-l-4 border-l-indigo-600 text-indigo-600 bg-indigo-50"
             )}
           >
             <span>Property Type</span>

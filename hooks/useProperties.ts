@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import { fetchProperties } from "@/lib/api";
+import { propertyCache } from "@/lib/propertyCache";
 import { queryToFilters, queryToPage, queryToSort } from "@/lib/utils";
 import type { PropertyListing, PropertyMeta, FilterState, SortOption } from "@/lib/types";
 
@@ -43,6 +44,7 @@ export function useProperties({
       setError(null);
       try {
         const data = await fetchProperties(filters, page, sort, name);
+        propertyCache.set(data.items);
         setItems(data.items);
         setMeta(data._meta);
       } catch (err) {

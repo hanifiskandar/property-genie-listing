@@ -72,7 +72,7 @@ function SavedSearchItem({
 }) {
   const { filters } = search;
   const tags: string[] = [];
-  if (filters.location) tags.push(filters.location);
+  if (filters.location) tags.push(filters.locationTitle || filters.location);
   if (filters.categories.length) tags.push(...filters.categories);
   if (filters.types.length) tags.push(...filters.types);
   if (filters.minPrice) tags.push(`≥ ${formatPrice(filters.minPrice)}`);

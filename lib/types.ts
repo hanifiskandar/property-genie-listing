@@ -59,20 +59,33 @@ export interface PropertyApiResponse {
 }
 
 export interface LocationResult {
-  id: string;
-  name: string;
-  type: "city" | "state";
-  state?: string;
+  type: string;
+  title: string;
+  slug: string;
 }
 
 export type SortOption = "price" | "-price" | "createdAt" | "-createdAt";
 
 export interface FilterState {
   location: string;
+  locationTitle: string;
   categories: string[];
   types: string[];
   minPrice: number | null;
   maxPrice: number | null;
+}
+
+export interface PropertyDetail extends PropertyListing {
+  description?: string;
+}
+
+export interface Agent {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  slug: string;
+  image?: string;
 }
 
 export interface SavedSearch {

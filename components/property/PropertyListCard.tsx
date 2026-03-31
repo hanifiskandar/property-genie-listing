@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { MapPin, Bed, Bath, SquareStack, Heart, Calendar, Sofa, Eye } from "lucide-react";
+import { MapPin, Bed, Bath, SquareStack, Heart, ArrowRight, Calendar, Sofa, Eye } from "lucide-react";
 import { cn, formatPrice, formatArea } from "@/lib/utils";
 import type { PropertyListing } from "@/lib/types";
 
@@ -21,7 +21,7 @@ function WhatsAppIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-interface PropertyCardProps {
+interface PropertyListCardProps {
   property: PropertyListing;
   index?: number;
 }
@@ -38,6 +38,7 @@ const TYPE_COLORS: Record<string, string> = {
   room:            "bg-pink-100 text-pink-700",
 };
 
+
 function formatShortDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-MY", {
     day: "numeric",
@@ -46,7 +47,7 @@ function formatShortDate(iso: string): string {
   });
 }
 
-export function PropertyCard({ property, index = 99 }: PropertyCardProps) {
+export function PropertyListCard({ property, index = 99 }: PropertyListCardProps) {
   const router = useRouter();
   const [bookmarked, setBookmarked] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -57,15 +58,15 @@ export function PropertyCard({ property, index = 99 }: PropertyCardProps) {
     <article
       onClick={() => router.push(`/properties/${property.id}`)}
       className={cn(
-        "group relative flex flex-col bg-white rounded-2xl overflow-hidden",
-        "border-t-2 border-t-indigo-600 border border-gray-100",
+        "group relative flex bg-white rounded-2xl overflow-hidden",
+        "border-l-4 border-l-indigo-600 border border-gray-100",
         "shadow-md hover:shadow-xl",
-        "transition-all duration-300 ease-out hover:-translate-y-1",
+        "transition-all duration-300 ease-out hover:-translate-y-0.5",
         "cursor-pointer"
       )}
     >
-      {/* ── Image ───────────────────────────────────────────────────── */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+      {/* ── Image ────────────────────────────────────────────────────── */}
+      <div className="relative w-[260px] shrink-0 overflow-hidden bg-gray-100">
         {imgError ? (
           <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
             <span className="text-gray-400 text-xs">No Image</span>
@@ -75,42 +76,43 @@ export function PropertyCard({ property, index = 99 }: PropertyCardProps) {
             src={property.image}
             alt={property.name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="260px"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             priority={isPriority}
             loading={isPriority ? "eager" : "lazy"}
             onError={() => setImgError(true)}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
-
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10" />
         <span className={cn("absolute top-3 left-3 px-2 py-0.5 rounded-full text-[11px] font-semibold capitalize tracking-wide", typeColor)}>
           {property.type}
         </span>
         <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-widest bg-black/50 text-white backdrop-blur-sm">
           {property.section}
         </span>
-
-        {/* Bookmark — stopPropagation so it doesn't trigger card navigation */}
-        <button
-          onClick={(e) => { e.stopPropagation(); setBookmarked((v) => !v); }}
-          aria-label={bookmarked ? "Remove bookmark" : "Bookmark property"}
-          className={cn(
-            "absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center",
-            "bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-200 hover:scale-110",
-            bookmarked ? "text-rose-500" : "text-gray-500 hover:text-rose-400"
-          )}
-        >
-          <Heart size={15} className={cn(bookmarked && "fill-rose-500")} />
-        </button>
       </div>
 
-      {/* ── Body ────────────────────────────────────────────────────── */}
-      <div className="flex flex-col flex-1 p-4 gap-2">
-        <p className="text-2xl font-bold text-gray-900 leading-tight tracking-tight">
-          {formatPrice(property.price)}
-        </p>
-        <h3 className="text-base font-semibold text-gray-800 leading-snug line-clamp-2">
+      {/* ── Details ──────────────────────────────────────────────────── */}
+      <div className="flex flex-col flex-1 min-w-0 px-5 py-4 gap-1.5">
+        {/* Price + bookmark */}
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-xl font-bold text-gray-900 leading-tight tracking-tight">
+            {formatPrice(property.price)}
+          </p>
+          <button
+            onClick={(e) => { e.stopPropagation(); setBookmarked((v) => !v); }}
+            aria-label={bookmarked ? "Remove bookmark" : "Bookmark property"}
+            className={cn(
+              "shrink-0 w-7 h-7 rounded-full flex items-center justify-center",
+              "bg-gray-100 transition-all duration-200 hover:scale-110",
+              bookmarked ? "text-rose-500" : "text-gray-400 hover:text-rose-400"
+            )}
+          >
+            <Heart size={14} className={cn(bookmarked && "fill-rose-500")} />
+          </button>
+        </div>
+
+        <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-1">
           {property.name}
         </h3>
 
@@ -132,39 +134,48 @@ export function PropertyCard({ property, index = 99 }: PropertyCardProps) {
           </div>
         )}
 
-        <div className="mt-auto bg-gray-50 rounded-lg px-3 py-2 flex items-center gap-4 text-xs">
-          <span className="flex items-center gap-1.5 text-gray-600">
-            <Bed size={13} className="text-gray-400" />
-            <span className="font-semibold text-gray-700">{property.bedRooms}</span>
-            <span className="text-gray-400">bed</span>
-          </span>
-          <span className="w-px h-3 bg-gray-200" />
-          <span className="flex items-center gap-1.5 text-gray-600">
-            <Bath size={13} className="text-gray-400" />
-            <span className="font-semibold text-gray-700">{property.bathRooms}</span>
-            <span className="text-gray-400">bath</span>
-          </span>
-          <span className="w-px h-3 bg-gray-200" />
-          <span className="flex items-center gap-1.5 text-gray-600">
-            <SquareStack size={13} className="text-gray-400" />
-            <span className="font-semibold text-gray-700">{formatArea(property.floorSize)}</span>
-          </span>
+        <div className="flex-1" />
+
+        {/* Stats + action */}
+        <div className="flex items-center justify-between gap-3">
+          <div className="bg-gray-50 rounded-lg px-3 py-1.5 flex items-center gap-3 text-xs">
+            <span className="flex items-center gap-1 text-gray-600">
+              <Bed size={12} className="text-gray-400" />
+              <span className="font-semibold text-gray-700">{property.bedRooms}</span>
+            </span>
+            <span className="w-px h-3 bg-gray-200" />
+            <span className="flex items-center gap-1 text-gray-600">
+              <Bath size={12} className="text-gray-400" />
+              <span className="font-semibold text-gray-700">{property.bathRooms}</span>
+            </span>
+            <span className="w-px h-3 bg-gray-200" />
+            <span className="flex items-center gap-1 text-gray-600">
+              <SquareStack size={12} className="text-gray-400" />
+              <span className="font-semibold text-gray-700">{formatArea(property.floorSize)}</span>
+            </span>
+          </div>
+
+          <button
+            onClick={(e) => e.stopPropagation()}
+            className="shrink-0 inline-flex items-center gap-1.5 h-8 px-3 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition-colors"
+          >
+            View Details
+            <ArrowRight size={12} />
+          </button>
         </div>
 
         <div className="flex items-center gap-1 text-[11px] text-gray-400">
           <Calendar size={10} className="shrink-0" />
           <span>Listed {formatShortDate(property.createdAt)}</span>
         </div>
-      </div>
 
-      {/* ── Blue agent footer ────────────────────────────────────────── */}
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-blue-500"
-      >
-        <div className="flex items-center justify-between gap-2">
+        {/* Blue agent row */}
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center justify-between gap-2 -mx-5 -mb-4 px-5 py-2.5 mt-1 bg-gradient-to-r from-indigo-600 to-blue-500 rounded-br-2xl"
+        >
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+            <div className="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center text-white text-[9px] font-bold shrink-0">
               {property.account.name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
             </div>
             <span className="text-white text-xs font-medium truncate">{property.account.name}</span>
@@ -175,18 +186,18 @@ export function PropertyCard({ property, index = 99 }: PropertyCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white transition-colors"
+              className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white transition-colors"
               aria-label="WhatsApp agent"
             >
-              <WhatsAppIcon size={14} />
+              <WhatsAppIcon size={13} />
             </a>
             <Link
               href={`/agents/${property.account.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="w-7 h-7 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white transition-colors"
+              className="w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center text-white transition-colors"
               aria-label="View agent listings"
             >
-              <Eye size={14} />
+              <Eye size={13} />
             </Link>
           </div>
         </div>
